@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metasploit-framework (4.16.25)
+    metasploit-framework (4.16.27)
       actionpack (~> 4.2.6)
       activerecord (~> 4.2.6)
       activesupport (~> 4.2.6)
@@ -17,9 +17,9 @@ PATH
       metasploit-concern
       metasploit-credential
       metasploit-model
-      metasploit-payloads (= 1.3.19)
+      metasploit-payloads (= 1.3.23)
       metasploit_data_models
-      metasploit_payloads-mettle (= 0.3.2)
+      metasploit_payloads-mettle (= 0.3.3)
       msgpack
       nessus_rest
       net-ssh
@@ -177,7 +177,7 @@ GEM
       activemodel (~> 4.2.6)
       activesupport (~> 4.2.6)
       railties (~> 4.2.6)
-    metasploit-payloads (1.3.19)
+    metasploit-payloads (1.3.23)
     metasploit_data_models (2.0.15)
       activerecord (~> 4.2.6)
       activesupport (~> 4.2.6)
@@ -188,7 +188,7 @@ GEM
       postgres_ext
       railties (~> 4.2.6)
       recog (~> 2.0)
-    metasploit_payloads-mettle (0.3.2)
+    metasploit_payloads-mettle (0.3.3)
     method_source (0.9.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
@@ -201,7 +201,7 @@ GEM
     nexpose (7.1.1)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
-    octokit (4.7.0)
+    octokit (4.8.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     openssl-ccm (1.2.1)
     openvas-omp (0.0.4)
@@ -375,4 +375,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
