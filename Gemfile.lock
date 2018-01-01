@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    metasploit-framework (4.16.27)
+    metasploit-framework (4.16.29)
       actionpack (~> 4.2.6)
       activerecord (~> 4.2.6)
       activesupport (~> 4.2.6)
@@ -20,6 +20,7 @@ PATH
       metasploit-payloads (= 1.3.23)
       metasploit_data_models
       metasploit_payloads-mettle (= 0.3.3)
+      mqtt
       msgpack
       nessus_rest
       net-ssh
@@ -103,7 +104,7 @@ GEM
     arel (6.0.4)
     arel-helpers (2.5.0)
       activerecord (>= 3.1.0, < 6)
-    backports (3.10.3)
+    backports (3.11.0)
     bcrypt (3.1.11)
     bcrypt_pbkdf (1.0.0)
     bindata (2.4.1)
@@ -192,6 +193,7 @@ GEM
     method_source (0.9.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
+    mqtt (0.5.0)
     msgpack (1.2.0)
     multi_json (1.12.2)
     multipart-post (2.0.0)
