@@ -70,9 +70,9 @@ Gem::Specification.new do |spec|
   # are needed when there's no database
   spec.add_runtime_dependency 'metasploit-model'
   # Needed for Meterpreter
-  spec.add_runtime_dependency 'metasploit-payloads', '1.3.28'
+  spec.add_runtime_dependency 'metasploit-payloads', '1.3.29'
   # Needed for the next-generation POSIX Meterpreter
-  spec.add_runtime_dependency 'metasploit_payloads-mettle', '0.3.6'
+  spec.add_runtime_dependency 'metasploit_payloads-mettle', '0.3.7'
   # Needed by msfgui and other rpc components
   spec.add_runtime_dependency 'msgpack'
   # get list of network interfaces, like eth* from OS.
@@ -125,7 +125,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'dnsruby'
   spec.add_runtime_dependency 'mqtt'
   spec.add_runtime_dependency 'net-ssh'
-  spec.add_runtime_dependency 'rbnacl', ['< 5.0.0']
   spec.add_runtime_dependency 'bcrypt_pbkdf'
   spec.add_runtime_dependency 'ruby_smb'
 
