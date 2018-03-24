@@ -18,7 +18,7 @@ PATH
       metasploit-concern
       metasploit-credential
       metasploit-model
-      metasploit-payloads (= 1.3.29)
+      metasploit-payloads (= 1.3.31)
       metasploit_data_models
       metasploit_payloads-mettle (= 0.3.7)
       mqtt
@@ -62,8 +62,10 @@ PATH
       ruby_smb (= 0.0.18)
       rubyntlm
       rubyzip
+      sinatra
       sqlite3
       sshkey
+      thin
       tzinfo
       tzinfo-data
       windows_error
@@ -108,16 +110,18 @@ GEM
     backports (3.11.1)
     bcrypt (3.1.11)
     bcrypt_pbkdf (1.0.0)
-    bindata (2.4.2)
+    bindata (2.4.3)
     bit-struct (0.16)
     builder (3.2.3)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
+    daemons (1.2.4)
     diff-lcs (1.3)
     dnsruby (1.60.2)
-    docile (1.1.5)
+    docile (1.3.0)
     erubis (2.7.0)
+    eventmachine (1.2.3)
     factory_girl (4.9.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.9.0)
@@ -128,7 +132,7 @@ GEM
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
     filesize (0.1.1)
-    fivemat (1.3.5)
+    fivemat (1.3.6)
     google-protobuf (3.5.1)
     googleapis-common-protos-types (1.0.1)
       google-protobuf (~> 3.0)
@@ -155,7 +159,7 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    loofah (2.2.0)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     memoist (0.16.0)
@@ -180,7 +184,7 @@ GEM
       activemodel (~> 4.2.6)
       activesupport (~> 4.2.6)
       railties (~> 4.2.6)
-    metasploit-payloads (1.3.29)
+    metasploit-payloads (1.3.31)
     metasploit_data_models (2.0.16)
       activerecord (~> 4.2.6)
       activesupport (~> 4.2.6)
@@ -196,7 +200,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     mqtt (0.5.0)
-    msgpack (1.2.2)
+    msgpack (1.2.4)
     multi_json (1.13.1)
     multipart-post (2.0.0)
     nessus_rest (0.1.6)
@@ -230,7 +234,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.2)
-    rack (1.6.8)
+    rack (1.6.9)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails-deprecated_sanitizer (1.0.3)
@@ -246,9 +252,9 @@ GEM
       activesupport (= 4.2.10)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.3.0)
+    rake (12.3.1)
     rb-readline (0.5.5)
-    recog (2.1.17)
+    recog (2.1.18)
       nokogiri
     redcarpet (3.4.0)
     rex-arch (0.1.13)
@@ -259,7 +265,7 @@ GEM
       rex-core
       rex-struct2
       rex-text
-    rex-core (0.1.12)
+    rex-core (0.1.13)
     rex-encoder (0.1.4)
       metasm
       rex-arch
@@ -287,7 +293,7 @@ GEM
       metasm
       rex-core
       rex-text
-    rex-socket (0.1.10)
+    rex-socket (0.1.12)
       rex-core
     rex-sslscan (0.1.5)
       rex-core
@@ -337,15 +343,24 @@ GEM
       faraday (~> 0.9)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
-    simplecov (0.15.1)
-      docile (~> 1.1.0)
+    simplecov (0.16.1)
+      docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    sinatra (1.4.8)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
     sqlite3 (1.3.13)
     sshkey (1.9.0)
+    thin (1.7.1)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
     thor (0.20.0)
     thread_safe (0.3.6)
+    tilt (2.0.7)
     timecop (0.9.1)
     ttfunk (1.5.1)
     tzinfo (1.2.5)
