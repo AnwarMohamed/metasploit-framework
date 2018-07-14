@@ -43,17 +43,18 @@ class Core
     "-h"  => [ false, "Help banner"                                                    ],
     "-i"  => [ true,  "Interact with the supplied session ID"                          ],
     "-l"  => [ false, "List all active sessions"                                       ],
-    "-v"  => [ false, "List sessions in verbose mode"                                  ],
+    "-v"  => [ false, "List all active sessions in verbose mode"                       ],
+    "-d" =>  [ false, "List all inactive sessions"                                     ],
     "-q"  => [ false, "Quiet mode"                                                     ],
     "-k"  => [ true,  "Terminate sessions by session ID and/or range"                  ],
     "-K"  => [ false, "Terminate all sessions"                                         ],
     "-s"  => [ true,  "Run a script or module on the session given with -i, or all"    ],
-    "-r"  => [ false, "Reset the ring buffer for the session given with -i, or all"    ],
     "-u"  => [ true,  "Upgrade a shell to a meterpreter session on many platforms"     ],
     "-t"  => [ true,  "Set a response timeout (default: 15)"                           ],
     "-S"  => [ true,  "Row search filter."                                             ],
     "-x" =>  [ false, "Show extended information in the session table"                 ],
     "-n" =>  [ true,  "Name or rename a session by ID"                                 ])
+
 
   @@threads_opts = Rex::Parser::Arguments.new(
     "-h" => [ false, "Help banner."                                   ],
@@ -1131,12 +1132,13 @@ class Core
     begin
     method   = nil
     quiet    = false
+    show_active = false
+    show_inactive = false
     show_extended = false
     verbose  = false
     sid      = nil
     cmds     = []
     script   = nil
-    reset_ring = false
     response_timeout = 15
     search_term = nil
     session_name = nil
@@ -1161,6 +1163,10 @@ class Core
         when "-C"
             method = 'meterp-cmd'
             cmds << val if val
+        # Display the list of inactive sessions
+        when "-d"
+          show_inactive = true
+          method = 'list_inactive'
         when "-x"
           show_extended = true
         when "-v"
@@ -1171,6 +1177,7 @@ class Core
           sid = val
         # Display the list of active sessions
         when "-l"
+          show_active = true
           method = 'list'
         when "-k"
           method = 'kill'
@@ -1190,10 +1197,6 @@ class Core
         # Search for specific session
         when "-S", "--search"
           search_term = val
-        # Reset the ring buffer read pointer
-        when "-r"
-          reset_ring = true
-          method = 'reset_ring'
         # Display help banner
         when "-h"
           cmd_sessions_help
@@ -1449,17 +1452,9 @@ class Core
           sleep(5)
         end
       end
-    when 'reset_ring'
-      sessions = sid ? [sid] : framework.sessions.keys
-      sessions.each do |sidx|
-        s = framework.sessions[sidx]
-        next unless (s && s.respond_to?(:ring_seq))
-        s.reset_ring_sequence
-        print_status("Reset the ring buffer pointer for Session #{sidx}")
-      end
-    when 'list',nil
+    when 'list', 'list_inactive', nil
       print_line
-      print(Serializer::ReadableText.dump_sessions(framework, :show_extended => show_extended, :verbose => verbose, :search_term => search_term))
+      print(Serializer::ReadableText.dump_sessions(framework, show_active: show_active, show_inactive: show_inactive, show_extended: show_extended, verbose: verbose, search_term: search_term))
       print_line
     when 'name'
       if session_name.blank?
@@ -2139,23 +2134,26 @@ class Core
     end
 
     # Is this option used by the active module?
-    if (mod.options.include?(opt))
-      res.concat(option_values_dispatch(mod.options[opt], str, words))
-    elsif (mod.options.include?(opt.upcase))
-      res.concat(option_values_dispatch(mod.options[opt.upcase], str, words))
+    mod.options.each_key do |key|
+      res.concat(option_values_dispatch(mod.options[key], str, words)) if key.downcase == opt.downcase
     end
 
     # How about the selected payload?
     if (mod.exploit? and mod.datastore['PAYLOAD'])
-      p = framework.payloads.create(mod.datastore['PAYLOAD'])
-      if (p and p.options.include?(opt))
-        res.concat(option_values_dispatch(p.options[opt], str, words))
-      elsif (p and p.options.include?(opt.upcase))
-        res.concat(option_values_dispatch(p.options[opt.upcase], str, words))
+      if p = framework.payloads.create(mod.datastore['PAYLOAD'])
+        p.options.each_key do |key|
+          res.concat(option_values_dispatch(p.options[key], str, words)) if key.downcase == opt.downcase
+        end
       end
     end
 
     return res
+  end
+
+  # XXX: We repurpose OptAddressLocal#interfaces, so we can't put this in Rex
+  def tab_complete_source_interface(o)
+    return [] unless o.is_a?(Msf::OptAddressLocal)
+    o.interfaces
   end
 
   #
@@ -2179,8 +2177,8 @@ class Core
           res << Rex::Socket.source_address(rh)
         else
           res += tab_complete_source_address
+          res += tab_complete_source_interface(o)
         end
-      else
       end
 
     when Msf::OptAddressRange
