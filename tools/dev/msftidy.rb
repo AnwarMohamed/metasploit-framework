@@ -140,6 +140,7 @@ class Msftidy
   def check_ref_identifiers
     in_super     = false
     in_refs      = false
+    in_notes     = false
     cve_assigned = false
 
     @lines.each do |line|
@@ -153,6 +154,10 @@ class Msftidy
       if in_super and line =~ /["']References["'][[:space:]]*=>/
         in_refs = true
       elsif in_super and in_refs and line =~ /^[[:space:]]+\],*/m
+        in_refs = false
+      elsif in_super and line =~ /["']Notes["'][[:space:]]*=>/
+        in_notes = true
+      elsif in_super and in_notes and line =~ /^[[:space:]]+\},*/m
         break
       elsif in_super and in_refs and line =~ /[^#]+\[[[:space:]]*['"](.+)['"][[:space:]]*,[[:space:]]*['"](.+)['"][[:space:]]*\]/
         identifier = $1.strip.upcase
@@ -178,7 +183,7 @@ class Msftidy
           warn("Invalid WPVDB reference") if value !~ /^\d+$/
         when 'PACKETSTORM'
           warn("Invalid PACKETSTORM reference") if value !~ /^\d+$/
-        when 'URL' || 'AKA'
+        when 'URL'
           if value =~ /^https?:\/\/cvedetails\.com\/cve/
             warn("Please use 'CVE' for '#{value}'")
           elsif value =~ /^https?:\/\/www\.securityfocus\.com\/bid\//
@@ -194,12 +199,21 @@ class Msftidy
           elsif value =~ /^https?:\/\/(?:[^\.]+\.)?packetstormsecurity\.(?:com|net|org)\//
             warn("Please use 'PACKETSTORM' for '#{value}'")
           end
+        when 'AKA'
+          warn("Please include AKA values in the 'notes' section, rather than in 'references'.")
         end
+      end
+
+      # If a NOCVE reason was provided in notes, ignore the fact that the references might lack a CVE
+      if in_super and in_notes and line =~ /^[[:space:]]+["']NOCVE["'][[:space:]]+=>[[:space:]]+\[*["'](.+)["']\]*/
+        cve_assigned = true
       end
     end
 
     # This helps us track when CVEs aren't assigned
-    info('No CVE references found. Please check before you land!') unless cve_assigned
+    unless cve_assigned
+      info('No CVE references found. Please check before you land!')
+    end
   end
 
   def check_self_class
@@ -240,11 +254,10 @@ class Msftidy
     line =~ /^\s*(require|load)\s+['"]#{lib}['"]/
   end
 
+  # This check also enforces namespace module name reversibility
   def check_snake_case_filename
-    sep = File::SEPARATOR
-    good_name = Regexp.new "^[a-z0-9_#{sep}]+\.rb$"
-    unless @name =~ good_name
-      warn "Filenames should be alphanum and snake case."
+    if @name !~ /^[a-z0-9]+(?:_[a-z0-9]+)*\.rb$/
+      warn('Filenames must be lowercase alphanumeric snake case.')
     end
   end
 
@@ -427,10 +440,10 @@ class Msftidy
     return if @source =~ /Generic Payload Handler/
 
     # Check disclosure date format
-    if @source =~ /["']DisclosureDate["'].*\=\>[\x0d\x20]*['\"](.+)['\"]/
+    if @source =~ /["']DisclosureDate["'].*\=\>[\x0d\x20]*['\"](.+?)['\"]/
       d = $1  #Captured date
       # Flag if overall format is wrong
-      if d =~ /^... \d{1,2}\,* \d{4}/
+      if d =~ /^... (?:\d{1,2},? )?\d{4}$/
         # Flag if month format is wrong
         m = d.split[0]
         months = [
@@ -439,6 +452,13 @@ class Msftidy
         ]
 
         error('Incorrect disclosure month format') if months.index(m).nil?
+      # XXX: yyyy-mm is interpreted as yyyy-01-mm by Date::iso8601
+      elsif d =~ /^\d{4}-\d{2}-\d{2}$/
+        begin
+          Date.iso8601(d)
+        rescue ArgumentError
+          error('Incorrect ISO 8601 disclosure date format')
+        end
       else
         error('Incorrect disclosure date format')
       end
@@ -468,6 +488,7 @@ class Msftidy
     end
 
     prefix_super_map = {
+      'evasion' => /^Msf::Evasion$/,
       'auxiliary' => /^Msf::Auxiliary$/,
       'exploits' => /^Msf::Exploit(?:::Local|::Remote)?$/,
       'encoders' => /^(?:Msf|Rex)::Encoder/,

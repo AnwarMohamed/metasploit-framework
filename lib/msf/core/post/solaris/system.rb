@@ -22,6 +22,23 @@ module System
     system_data[:version] = version
     system_data[:kernel] = kernel_version
     system_data[:hostname] = kernel_version.split(" ")[1]
+    host_info = {
+      :host => rhost,
+      :os_name => 'Solaris',
+      :name => system_data[:hostname]
+    }
+    # Test cases for these can be found here:
+    #    http://rubular.com/r/MsGuhp89F0
+    #    http://rubular.com/r/DWKG0jpPCk
+    #    http://rubular.com/r/EjiIa1RFxB
+    if /(?<OS>(?<!Open|Oracle )Solaris).+s2?(?<major>\d?\d)[x|s]?(_u)(?<minor>\d?\d)/ =~ system_data[:version]
+      host_info[:os_flavor] = "#{major}.#{minor}"
+    elsif /(?<OS>Oracle Solaris) (?<major>\d\d)\.(?<minor>\d?\d)/ =~ system_data[:version]
+      host_info[:os_flavor] = "#{major}.#{minor}"
+    elsif /(?<OS>OpenSolaris|OpenIndiana [\w]+) (?<major>\d\d\d\d)\.(?<minor>\d\d)/ =~ system_data[:version]
+      host_info[:os_flavor] = "#{major}.#{minor}"
+    end
+    report_host(host_info)
     return system_data
   end
 
@@ -93,7 +110,10 @@ module System
   # @return [Boolean]
   #
   def has_gcc?
-    command_exists? 'gcc'
+    # /usr/sfw/bin - default gcc path on some systems
+    # /opt/sfw/bin - default gcc path for gcc package
+    # /opt/csw/bin - default gcc path for OpenCSW gcc package
+    command_exists?('gcc') || command_exists?('/usr/sfw/bin/gcc') || command_exists?('/opt/sfw/bin/gcc') || command_exists?('/opt/csw/bin/gcc')
   rescue
     raise 'Unable to check for gcc'
   end
@@ -114,9 +134,9 @@ module System
   #
   def pidof(program)
     pids = []
-    full = cmd_exec('ps aux').to_s
+    full = cmd_exec('ps -elf').to_s
     full.split("\n").each do |pid|
-      pids << pid.split(' ')[1].to_i if pid.include? program
+      pids << pid.split(' ')[3].to_i if pid.include? program
     end
     pids
   end
