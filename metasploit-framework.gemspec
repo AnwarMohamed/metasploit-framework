@@ -53,7 +53,7 @@ Gem::Specification.new do |spec|
   # Backports Ruby features across language versions
   spec.add_runtime_dependency 'backports'
   # Needed for some admin modules (cfme_manageiq_evm_pass_reset.rb)
-  spec.add_runtime_dependency 'bcrypt'
+  spec.add_runtime_dependency 'bcrypt', '3.1.12'
   # Needed for Javascript obfuscation
   spec.add_runtime_dependency 'jsobfu'
   # Needed for some admin modules (scrutinizer_add_user.rb)
@@ -65,14 +65,14 @@ Gem::Specification.new do |spec|
   # Metasploit::Credential database models
   spec.add_runtime_dependency 'metasploit-credential'
   # Database models shared between framework and Pro.
-  spec.add_runtime_dependency 'metasploit_data_models'
+  spec.add_runtime_dependency 'metasploit_data_models', '3.0.10'
   # Things that would normally be part of the database model, but which
   # are needed when there's no database
   spec.add_runtime_dependency 'metasploit-model'
   # Needed for Meterpreter
-  spec.add_runtime_dependency 'metasploit-payloads', '1.3.58'
+  spec.add_runtime_dependency 'metasploit-payloads', '1.3.77'
   # Needed for the next-generation POSIX Meterpreter
-  spec.add_runtime_dependency 'metasploit_payloads-mettle', '0.5.1'
+  spec.add_runtime_dependency 'metasploit_payloads-mettle', '0.5.16'
   # Needed by msfgui and other rpc components
   spec.add_runtime_dependency 'msgpack'
   # get list of network interfaces, like eth* from OS.
@@ -86,9 +86,9 @@ Gem::Specification.new do |spec|
   # For sniffer and raw socket modules
   spec.add_runtime_dependency 'pcaprub'
   # Used by the Metasploit data model, etc.
-  # bound to 0.20 for Activerecord 4.2.8 deprecation warnings:
+  # bound to 0.2x for Activerecord 4.2.8 deprecation warnings:
   # https://github.com/ged/ruby-pg/commit/c90ac644e861857ae75638eb6954b1cb49617090
-  spec.add_runtime_dependency 'pg', '0.20.0'
+  spec.add_runtime_dependency 'pg', '~> 0.20'
   # Run initializers for metasploit-concern, metasploit-credential, metasploit_data_models Rails::Engines
   spec.add_runtime_dependency 'railties'
   # required for OS fingerprinting
@@ -198,4 +198,9 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faker'
   # Pinned as a dependency of i18n to the last working version
   spec.add_runtime_dependency 'concurrent-ruby','1.0.5'
+
+  # AWS enumeration modules
+  spec.add_runtime_dependency 'aws-sdk-s3'
+  spec.add_runtime_dependency 'aws-sdk-ec2'
+  spec.add_runtime_dependency 'aws-sdk-iam'
 end

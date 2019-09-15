@@ -85,6 +85,36 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'apple_ios/aarch64/shell_reverse_tcp'
   end
 
+  context 'apple_ios/armle/meterpreter_reverse_http' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/apple_ios/armle/meterpreter_reverse_http'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'apple_ios/armle/meterpreter_reverse_http'
+  end
+
+  context 'apple_ios/armle/meterpreter_reverse_https' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/apple_ios/armle/meterpreter_reverse_https'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'apple_ios/armle/meterpreter_reverse_https'
+  end
+
+  context 'apple_ios/armle/meterpreter_reverse_tcp' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/apple_ios/armle/meterpreter_reverse_tcp'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'apple_ios/armle/meterpreter_reverse_tcp'
+  end
+
   context 'android/meterpreter_reverse_https' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -199,6 +229,16 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'bsd/sparc/shell_reverse_tcp'
+  end
+
+  context 'bsd/vax/shell_reverse_tcp' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/bsd/vax/shell_reverse_tcp'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'bsd/vax/shell_reverse_tcp'
   end
 
   context 'bsd/x64/exec' do
@@ -716,6 +756,16 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: true,
                           modules_pathname: modules_pathname,
                           reference_name: 'cmd/unix/reverse_bash'
+  end
+
+  context 'cmd/unix/reverse_bash_udp' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                            'singles/cmd/unix/reverse_bash_udp'
+                          ],
+                          dynamic_size: true,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'cmd/unix/reverse_bash_udp'
   end
 
   context 'cmd/unix/reverse_bash_telnet_ssl' do
@@ -1542,6 +1592,16 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'linux/x64/shell/reverse_tcp'
   end
 
+  context 'linux/x64/shell_bind_ipv6_tcp' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/linux/x64/shell_bind_ipv6_tcp'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'linux/x64/shell_bind_ipv6_tcp'
+  end
+
   context 'linux/x64/shell_bind_tcp' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -1570,6 +1630,16 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'linux/x64/shell_find_port'
+  end
+
+  context 'linux/x64/shell_reverse_ipv6_tcp' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/linux/x64/shell_reverse_ipv6_tcp'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'linux/x64/shell_reverse_ipv6_tcp'
   end
 
   context 'linux/x64/shell_reverse_tcp' do
@@ -2849,17 +2919,6 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'windows/dllinject/reverse_tcp_rc4_dns'
   end
 
-  context 'windows/dllinject/reverse_udp' do
-    it_should_behave_like 'payload cached size is consistent',
-                          ancestor_reference_names: [
-                              'stagers/windows/reverse_udp',
-                              'stages/windows/dllinject'
-                          ],
-                          dynamic_size: false,
-                          modules_pathname: modules_pathname,
-                          reference_name: 'windows/dllinject/reverse_udp'
-  end
-
   context 'windows/dns_txt_query_exec' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -3233,17 +3292,6 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'windows/meterpreter/reverse_tcp_uuid'
   end
 
-  context 'windows/meterpreter/reverse_udp' do
-    it_should_behave_like 'payload cached size is consistent',
-                          ancestor_reference_names: [
-                              'stagers/windows/reverse_udp',
-                              'stages/windows/meterpreter'
-                          ],
-                          dynamic_size: false,
-                          modules_pathname: modules_pathname,
-                          reference_name: 'windows/meterpreter/reverse_udp'
-  end
-
   context 'windows/metsvc_bind_tcp' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -3418,17 +3466,6 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'windows/patchupdllinject/reverse_tcp_rc4_dns'
   end
 
-  context 'windows/patchupdllinject/reverse_udp' do
-    it_should_behave_like 'payload cached size is consistent',
-                          ancestor_reference_names: [
-                              'stagers/windows/reverse_udp',
-                              'stages/windows/patchupdllinject'
-                          ],
-                          dynamic_size: false,
-                          modules_pathname: modules_pathname,
-                          reference_name: 'windows/patchupdllinject/reverse_udp'
-  end
-
   context 'windows/patchupmeterpreter/bind_ipv6_tcp' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -3581,17 +3618,6 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/patchupmeterpreter/reverse_tcp_rc4_dns'
-  end
-
-  context 'windows/patchupmeterpreter/reverse_udp' do
-    it_should_behave_like 'payload cached size is consistent',
-                          ancestor_reference_names: [
-                              'stagers/windows/reverse_udp',
-                              'stages/windows/patchupmeterpreter'
-                          ],
-                          dynamic_size: false,
-                          modules_pathname: modules_pathname,
-                          reference_name: 'windows/patchupmeterpreter/reverse_udp'
   end
 
   context 'windows/shell/bind_ipv6_tcp' do
@@ -4128,17 +4154,6 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'windows/vncinject/reverse_tcp_rc4_dns'
   end
 
-  context 'windows/vncinject/reverse_udp' do
-    it_should_behave_like 'payload cached size is consistent',
-                          ancestor_reference_names: [
-                              'stagers/windows/reverse_udp',
-                              'stages/windows/vncinject'
-                          ],
-                          dynamic_size: false,
-                          modules_pathname: modules_pathname,
-                          reference_name: 'windows/vncinject/reverse_udp'
-  end
-
   context 'windows/x64/exec' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -4157,6 +4172,16 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/x64/loadlibrary'
+  end
+
+  context 'windows/x64/messagebox' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/windows/x64/messagebox'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/x64/messagebox'
   end
 
   context 'windows/x64/meterpreter/bind_ipv6_tcp' do
@@ -4201,6 +4226,17 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/x64/meterpreter/bind_tcp'
+  end
+
+  context 'windows/x64/meterpreter/bind_tcp_rc4' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'stagers/windows/x64/bind_tcp_rc4',
+                              'stages/windows/x64/meterpreter'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/x64/meterpreter/bind_tcp_rc4'
   end
 
   context 'windows/x64/meterpreter/bind_tcp_uuid' do
@@ -4404,6 +4440,17 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'windows/x64/shell/bind_tcp'
   end
 
+  context 'windows/x64/shell/bind_tcp_rc4' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'stagers/windows/x64/bind_tcp_rc4',
+                              'stages/windows/x64/shell'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/x64/shell/bind_tcp_rc4'
+  end
+
   context 'windows/x64/shell/reverse_tcp' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
@@ -4466,6 +4513,17 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/x64/vncinject/bind_tcp'
+  end
+
+  context 'windows/x64/vncinject/bind_tcp_rc4' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'stagers/windows/x64/bind_tcp_rc4',
+                              'stages/windows/x64/vncinject'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/x64/vncinject/bind_tcp_rc4'
   end
 
   context 'windows/x64/vncinject/reverse_tcp' do

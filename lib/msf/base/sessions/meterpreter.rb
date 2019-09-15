@@ -14,6 +14,7 @@ module Sessions
 # with the server instance both at an API level as well as at a console level.
 #
 ###
+
 class Meterpreter < Rex::Post::Meterpreter::Client
 
   include Msf::Session
@@ -115,7 +116,7 @@ class Meterpreter < Rex::Post::Meterpreter::Client
 
     # COMSPEC is special-cased on all meterpreters to return a viable
     # shell.
-    sh = fs.file.expand_path("%COMSPEC%")
+    sh = sys.config.getenv('COMSPEC')
     @shell = sys.process.execute(sh, nil, { "Hidden" => true, "Channelized" => true })
 
   end
@@ -308,11 +309,11 @@ class Meterpreter < Rex::Post::Meterpreter::Client
   ##
   # :category: Msf::Session::Scriptable implementors
   #
-  # Runs the Meterpreter script or resource file
+  # Runs the Meterpreter script or resource file.
   #
   def execute_file(full_path, args)
-    # Infer a Meterpreter script by it having an .rb extension
-    if File.extname(full_path) == ".rb"
+    # Infer a Meterpreter script by .rb extension
+    if File.extname(full_path) == '.rb'
       Rex::Script::Meterpreter.new(self, full_path).run(args)
     else
       console.load_resource(full_path)
