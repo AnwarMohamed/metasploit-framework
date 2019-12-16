@@ -44,14 +44,14 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ["lib"]
 
+  spec.required_ruby_version = '>= 2.5'
+
   # Database support
   spec.add_runtime_dependency 'activerecord', *Metasploit::Framework::RailsVersionConstraint::RAILS_VERSION
   # Need 3+ for ActiveSupport::Concern
   spec.add_runtime_dependency 'activesupport', *Metasploit::Framework::RailsVersionConstraint::RAILS_VERSION
   # Needed for config.action_view for view plugin compatibility for Pro
   spec.add_runtime_dependency 'actionpack', *Metasploit::Framework::RailsVersionConstraint::RAILS_VERSION
-  # Backports Ruby features across language versions
-  spec.add_runtime_dependency 'backports'
   # Needed for some admin modules (cfme_manageiq_evm_pass_reset.rb)
   spec.add_runtime_dependency 'bcrypt', '3.1.12'
   # Needed for Javascript obfuscation
@@ -70,7 +70,7 @@ Gem::Specification.new do |spec|
   # are needed when there's no database
   spec.add_runtime_dependency 'metasploit-model'
   # Needed for Meterpreter
-  spec.add_runtime_dependency 'metasploit-payloads', '1.3.78'
+  spec.add_runtime_dependency 'metasploit-payloads', '1.3.83'
   # Needed for the next-generation POSIX Meterpreter
   spec.add_runtime_dependency 'metasploit_payloads-mettle', '0.5.16'
   # Needed by msfgui and other rpc components
@@ -203,4 +203,12 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'aws-sdk-s3'
   spec.add_runtime_dependency 'aws-sdk-ec2'
   spec.add_runtime_dependency 'aws-sdk-iam'
+
+  # Needed for WebSocket Support
+  spec.add_runtime_dependency 'faye-websocket'
+  spec.add_runtime_dependency 'eventmachine'
+
+  # Earlier than latest Faraday gem is used to prevent upstream Octokit errors
+  spec.add_runtime_dependency 'faraday', '<= 0.17.0'
+
 end
