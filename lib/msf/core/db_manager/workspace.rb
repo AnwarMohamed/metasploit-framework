@@ -52,6 +52,7 @@ module Msf::DBManager::Workspace
       return Array.wrap(Mdm::Workspace.find(opts[:id]))
     end
 
+    opts = opts.clone() # protect the original callers array
     search_term = opts.delete(:search_term)
     # Passing these values to the search will cause exceptions, so remove them if they accidentally got passed in.
     opts.delete(:workspace)
@@ -69,7 +70,7 @@ module Msf::DBManager::Workspace
 
   def delete_workspaces(opts)
     raise ArgumentError.new("The following options are required: :ids") if opts[:ids].nil?
-    
+
     ::ActiveRecord::Base.connection_pool.with_connection {
       deleted = []
       default_deleted = false
